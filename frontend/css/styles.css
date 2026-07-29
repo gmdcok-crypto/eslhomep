@@ -777,11 +777,32 @@ ul {
   padding: 1.5rem;
   border-radius: 1.25rem;
   border: 1px solid var(--tone-border);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
-    var(--tone-surface);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
   transition: transform 0.35s var(--ease), border-color 0.35s, box-shadow 0.35s;
+}
+
+.value-card:nth-child(1) {
+  background:
+    linear-gradient(180deg, rgba(11, 17, 16, 0.22), transparent 55%),
+    linear-gradient(145deg, #14201e, #3d524c 52%, #6d857c);
+}
+
+.value-card:nth-child(2) {
+  background:
+    linear-gradient(180deg, rgba(11, 17, 16, 0.24), transparent 55%),
+    linear-gradient(135deg, #4a5c68, #8aa0b0 58%, #6d7f78);
+}
+
+.value-card:nth-child(3) {
+  background:
+    linear-gradient(180deg, rgba(11, 17, 16, 0.26), transparent 55%),
+    linear-gradient(150deg, #3a4652, #6d7c8a 58%, #8a9890);
+}
+
+.value-card:nth-child(4) {
+  background:
+    linear-gradient(180deg, rgba(11, 17, 16, 0.32), transparent 55%),
+    linear-gradient(160deg, #0a0e0d, #243330 50%, #5c6b64);
 }
 
 .value-icon {

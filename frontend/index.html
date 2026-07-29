@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="SIGNET ESL — 병원 병상 네임텍, 회의실 전자명패, 예약룸·테이블 표시, 관공서·기업 사무실 명패 솔루션" />
+  <title>SIGNET ESL — 전자명패 · 예약 디스플레이</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B1110'/%3E%3Crect x='6' y='10' width='20' height='12' rx='2' fill='%233D9B8F'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="site-header" data-header>
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="SIGNET ESL 홈">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">SIGNET</span>
+        <span class="brand-sub">ESL</span>
+      </a>
+      <nav class="nav" data-nav aria-label="주요 메뉴">
+        <a href="#solutions">솔루션</a>
+        <a href="#scenes">적용 현장</a>
+        <a href="#flow">도입 절차</a>
+        <a href="#contact">문의</a>
+      </nav>
+      <a class="btn btn-sm header-cta" href="#contact">상담 요청</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="메뉴 열기">
+        <span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobile-nav" data-mobile-nav hidden>
+      <a href="#solutions">솔루션</a>
+      <a href="#scenes">적용 현장</a>
+      <a href="#flow">도입 절차</a>
+      <a href="#contact">문의</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero tone-odd" id="top">
+      <div class="hero-atmosphere" aria-hidden="true">
+        <span class="orb orb-a"></span>
+        <span class="orb orb-b"></span>
+        <span class="orb orb-c"></span>
+        <span class="hero-gridlines"></span>
+      </div>
+      <div class="shell hero-grid">
+        <div class="hero-copy" data-hero-in>
+          <p class="hero-brand">SIGNET ESL</p>
+          <h1>공간이 스스로<br /><span class="hero-em">말하는</span> ESL명패</h1>
+          <p class="hero-lead">병상·회의실·예약 테이블·사무실 명패까지, 실시간 정보가 읽히는 ESL 디스플레이.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">도입 문의</a>
+            <a class="btn btn-ghost" href="#solutions">솔루션 보기</a>
+          </div>
+        </div>
+        <div class="hero-stage">
+          <div class="hero-slider" data-slider aria-roledescription="carousel" aria-label="ESL 샘플 이미지">
+            <div class="hero-slider-viewport">
+              <div class="hero-slider-track" data-slider-track>
+                <figure class="hero-slide is-active" data-slide>
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="images/meeting-v9.webp 800w, images/meeting-v9@2x.webp 1024w"
+                      sizes="(max-width: 960px) 92vw, 560px"
+                    />
+                    <img
+                      src="images/meeting-v9.jpg"
+                      srcset="images/meeting-v9.jpg 800w, images/meeting-v9@2x.jpg 1024w"
+                      sizes="(max-width: 960px) 92vw, 560px"
+                      width="800"
+                      height="435"
+                      alt="회의실 ESL 명패 샘플"
+                      decoding="async"
+                      fetchpriority="high"
+                    />
+                  </picture>
+                  <figcaption>
+                    <span class="slide-tag">Meeting</span>
+                    <span>회의실 ESL 명패</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="hero-slide" data-slide data-slot="hospital">
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="images/hospital-room-v7.webp 800w, images/hospital-room-v7@2x.webp 1024w"
+                      sizes="(max-width: 960px) 92vw, 560px"
+                    />
+                    <img
+                      src="images/hospital-room-v7.jpg"
+                      srcset="images/hospital-room-v7.jpg 800w, images/hospital-room-v7@2x.jpg 1024w"
+                      sizes="(max-width: 960px) 92vw, 560px"
+                      width="800"
+                      height="435"
+                      alt="병실안내 ESL 디스플레이 샘플"
+                      decoding="async"
+                      loading="lazy"
+                    />
+                  </picture>
+                  <figcaption>
+                    <span class="slide-tag">Hospital</span>
+                    <span>병실안내</span>
+                  </figcaption>
+                </figure>
+
+                <figure class="hero-slide" data-slide data-slot="office">
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="images/office-room-v1.webp 800w, images/office-room-v1@2x.webp 1024w"
+                      sizes="(max-width: 960px) 92vw, 560px"
+                    />
+                    <img
+                      src="images/office-room-v1.jpg"
+                      srcset="images/office-room-v1.jpg 800w, images/office-room-v1@2x.jpg 1024w"
+                      sizes="(max-width: 960px) 92vw, 560px"
+                      width="800"
+                      height="435"
+                      alt="사무실 ESL 명패 샘플"
+                      decoding="async"
+                      loading="lazy"
+                    />
+                  </picture>
+                  <figcaption>
+                    <span class="slide-tag">Office</span>
+                    <span>사무실 명패</span>
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+
+            <div class="hero-slider-ui">
+              <button type="button" class="slider-nav slider-prev" data-slider-prev aria-label="이전 샘플">‹</button>
+              <div class="slider-dots" data-slider-dots role="tablist" aria-label="슬라이드 선택"></div>
+              <button type="button" class="slider-nav slider-next" data-slider-next aria-label="다음 샘플">›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-fade" aria-hidden="true"></div>
+    </section>
+
+    <section class="marquee tone-even" aria-label="핵심 가치">
+      <div class="marquee-track">
+        <span>E-Paper 저전력</span><span aria-hidden="true">·</span>
+        <span>무선 업데이트</span><span aria-hidden="true">·</span>
+        <span>중앙 관제</span><span aria-hidden="true">·</span>
+        <span>병원 · 관공서 · 기업 현장</span><span aria-hidden="true">·</span>
+        <span>실시간 예약 연동</span><span aria-hidden="true">·</span>
+        <span>E-Paper 저전력</span><span aria-hidden="true">·</span>
+        <span>무선 업데이트</span><span aria-hidden="true">·</span>
+        <span>중앙 관제</span><span aria-hidden="true">·</span>
+        <span>병원 · 관공서 · 기업 현장</span><span aria-hidden="true">·</span>
+        <span>실시간 예약 연동</span><span aria-hidden="true">·</span>
+      </div>
+    </section>
+
+    <section class="section value-props tone-odd" id="benefits">
+      <div class="shell">
+        <header class="section-head section-head--center" data-reveal>
+          <p class="eyebrow">Why SIGNET ESL</p>
+          <h2>출력은 줄이고, 운영은 빨라지는<br />현장형 ESL 솔루션</h2>
+          <p class="section-lead">도입 후 바로 체감되는 비용 절감과 운영 편의성. SIGNET ESL은 저전력, 무선, 클라우드 기반으로 현장 관리를 더 간편하게 만듭니다.</p>
+        </header>
+
+        <div class="value-grid">
+          <article class="value-card" data-reveal>
+            <span class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v8" />
+                <path d="M8 7c0-2 1.8-3.5 4-3.5S16 5 16 7c0 1.3-.7 2.3-1.7 3.1" />
+                <path d="M6 14c1.4-1.5 3.5-2.5 6-2.5s4.6 1 6 2.5" />
+                <path d="M7 18c1.6 1.9 3.3 3 5 3s3.4-1.1 5-3" />
+              </svg>
+            </span>
+            <h3>탄소절감</h3>
+            <p>반복 출력과 일회성 인쇄물을 줄여 종이 사용량, 폐기 비용, 관리 부담까지 한 번에 낮춥니다.</p>
+          </article>
+
+          <article class="value-card" data-reveal>
+            <span class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="7" width="14" height="10" rx="2" />
+                <path d="M18 10h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2" />
+                <path d="M10 9l-2 3h3l-2 3" />
+              </svg>
+            </span>
+            <h3>저전력 배터리</h3>
+            <p>배터리 수명은 최대 10년 수준까지 설계 가능해 유지비 부담이 낮고, 필요 시 교체형 운영도 지원합니다.</p>
+          </article>
+
+          <article class="value-card" data-reveal>
+            <span class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 9a12 12 0 0 1 16 0" />
+                <path d="M7 12a8 8 0 0 1 10 0" />
+                <path d="M10 15a4 4 0 0 1 4 0" />
+                <circle cx="12" cy="18" r="1.2" fill="currentColor" stroke="none" />
+              </svg>
+            </span>
+            <h3>무선네트워크</h3>
+            <p>별도 유선 공사 부담 없이 빠르게 설치하고, 여러 현장의 디바이스를 중앙에서 무선으로 손쉽게 갱신합니다.</p>
+          </article>
+
+          <article class="value-card" data-reveal>
+            <span class="value-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 18h9a4 4 0 0 0 .8-7.9A5.5 5.5 0 0 0 6.2 8.7 3.8 3.8 0 0 0 7 18Z" />
+                <path d="M12 10v7" />
+                <path d="m9.5 14.5 2.5 2.5 2.5-2.5" />
+              </svg>
+            </span>
+            <h3>클라우드 SaaS</h3>
+            <p>지점·층·부서가 분산되어도 웹 기반 관리로 배포, 변경, 모니터링까지 한 화면에서 운영할 수 있습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section solutions tone-even" id="solutions">
+      <div class="shell">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Solutions</p>
+          <h2>현장마다 다른 정보,<br />하나의 ESL 체계</h2>
+          <p class="section-lead">입원실 병상부터 회의실·예약룸·사무실 명패까지, 목적에 맞게 표시 템플릿을 설계합니다.</p>
+        </header>
+
+        <div class="solution-list">
+          <article class="solution" data-reveal>
+            <div class="solution-visual solution-visual--hospital">
+              <div class="device-mount">
+                <div class="mock-bed-screen">
+                  <div class="mock-bed-row"><span>병상 214-A</span><span class="live-dot"></span></div>
+                  <strong>이○○</strong>
+                  <span>외과 · 수술 예정 09:30</span>
+                </div>
+              </div>
+            </div>
+            <div class="solution-copy">
+              <span class="sol-index">01</span>
+              <h3>병원 입원실 · 병상 네임텍</h3>
+              <p>환자·담당의·주의사항·식사·이동 상태를 병상 옆에서 즉시 확인. 인쇄 교체 없이 중앙에서 갱신합니다.</p>
+              <ul>
+                <li>환자 식별 · 낙상/금식 등 주의 플래그</li>
+                <li>간호·의료진 동선에 맞춘 저시야 대비 레이아웃</li>
+                <li>개인정보 표시 범위 정책에 맞춘 템플릿</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="solution solution--flip" data-reveal>
+            <div class="solution-visual solution-visual--meeting">
+              <div class="device-mount device-mount--door">
+                <div class="mock-meeting-screen">
+                  <span class="pill pill--busy">In Use</span>
+                  <strong>Board Room</strong>
+                  <em>경영전략 회의</em>
+                  <span>10:00–12:00 · C-Level</span>
+                </div>
+              </div>
+            </div>
+            <div class="solution-copy">
+              <span class="sol-index">02</span>
+              <h3>회의실 전자명패</h3>
+              <p>문 옆 명패가 회의 제목·시간·주최 부서를 실시간으로 표시합니다. 빈 방·사용중·예약 임박을 색과 문구로 구분합니다.</p>
+              <ul>
+                <li>캘린더·예약 시스템 연동</li>
+                <li>다국어·로고·브랜딩 템플릿</li>
+                <li>배터리·유선 전원 옵션</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="solution" data-reveal>
+            <div class="solution-visual solution-visual--table">
+              <div class="device-mount device-mount--table">
+                <div class="mock-table-top"></div>
+                <div class="mock-table-screen">
+                  <span>Table 07</span>
+                  <strong>12:30 예약</strong>
+                  <em>한○○ 외 3명</em>
+                </div>
+              </div>
+            </div>
+            <div class="solution-copy">
+              <span class="sol-index">03</span>
+              <h3>예약 룸 · 테이블 예약정보 표시</h3>
+              <p>코워킹·식당·상담룸·스터디룸 테이블 위 디스플레이에 예약자·시간·잔여 좌석을 표시해 혼선과 노쇼를 줄입니다.</p>
+              <ul>
+                <li>예약/체크인 상태 동기화</li>
+                <li>테이블·룸 단위 일괄 배포</li>
+                <li>QR·안내 문구 커스텀</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="solution solution--flip" data-reveal>
+            <div class="solution-visual solution-visual--office">
+              <div class="device-mount">
+                <div class="mock-office-plate">
+                  <span>Room 502</span>
+                  <strong>정책기획과</strong>
+                  <em>과장 박○○</em>
+                </div>
+              </div>
+            </div>
+            <div class="solution-copy">
+              <span class="sol-index">04</span>
+              <h3>관공서 · 기업 사무실 명패</h3>
+              <p>부서명·직책·담당자 변경이 잦은 공간에 맞춰, 인쇄 명패 대신 무선 ESL로 교체 비용을 없앱니다.</p>
+              <ul>
+                <li>조직도·인사 시스템 연동 가능</li>
+                <li>문패·데스크·파티션 규격</li>
+                <li>공공·보안 정책에 맞는 표시 제어</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section scenes tone-odd" id="scenes">
+      <div class="shell">
+        <header class="section-head section-head--center" data-reveal>
+          <p class="eyebrow">Scenes</p>
+          <h2>정보가 필요한 바로 그 자리</h2>
+          <p class="section-lead">네 가지 핵심 현장에 맞춘 표시 규칙과 하드웨어 규격을 제안합니다.</p>
+        </header>
+        <div class="scene-rail" data-reveal>
+          <figure class="scene">
+            <div class="scene-art scene-art--hospital" aria-hidden="true">
+              <span class="scene-tag">Hospital</span>
+            </div>
+            <figcaption>
+              <h3>병원</h3>
+              <p>병동 복도 · 병상 헤드 · 간호스테이션</p>
+            </figcaption>
+          </figure>
+          <figure class="scene">
+            <div class="scene-art scene-art--meeting" aria-hidden="true">
+              <span class="scene-tag">Meeting</span>
+            </div>
+            <figcaption>
+              <h3>회의·예약</h3>
+              <p>회의실 도어 · 로비 · 예약 테이블</p>
+            </figcaption>
+          </figure>
+          <figure class="scene">
+            <div class="scene-art scene-art--gov" aria-hidden="true">
+              <span class="scene-tag">Public</span>
+            </div>
+            <figcaption>
+              <h3>관공서</h3>
+              <p>과실 명패 · 민원창구 · 안내 데스크</p>
+            </figcaption>
+          </figure>
+          <figure class="scene">
+            <div class="scene-art scene-art--corp" aria-hidden="true">
+              <span class="scene-tag">Office</span>
+            </div>
+            <figcaption>
+              <h3>기업</h3>
+              <p>임원실 · 팀존 · 핫데스크</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section flow tone-even" id="flow">
+      <div class="shell flow-grid">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow">Process</p>
+          <h2>현장 실측부터<br />관제 운영까지</h2>
+          <p class="section-lead">템플릿·연동·설치·교육을 한 흐름으로 제공합니다.</p>
+        </header>
+        <ol class="flow-steps" data-reveal>
+          <li>
+            <span class="step-num">01</span>
+            <h3>현장 진단</h3>
+            <p>공간·전원·무선·표시 정책 확인</p>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <h3>템플릿 설계</h3>
+            <p>병상·회의·예약·명패 UI 정의</p>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <h3>연동·설치</h3>
+            <p>예약·HIS·인사 데이터 연결</p>
+          </li>
+          <li>
+            <span class="step-num">04</span>
+            <h3>운영 이관</h3>
+            <p>관제·교육·유지보수 체계화</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section contact tone-odd" id="contact">
+      <div class="contact-shell">
+        <div class="shell contact-grid">
+          <div class="contact-intro" data-reveal>
+            <p class="eyebrow">Contact</p>
+            <h2>프로젝트 문의를<br />남겨 주세요</h2>
+            <p class="section-lead">도입 규모·현장 유형을 알려주시면 맞춤 제안서를 회신합니다.</p>
+            <ul class="contact-points">
+              <li>병원 · 병상 네임텍</li>
+              <li>회의실 · 예약룸 · 테이블</li>
+              <li>관공서 · 기업 사무실 명패</li>
+            </ul>
+          </div>
+
+          <form class="contact-form" id="inquiry-form" novalidate data-reveal>
+            <div class="field-row">
+              <label class="field">
+                <span>이름 *</span>
+                <input name="name" type="text" required autocomplete="name" placeholder="홍길동" />
+              </label>
+              <label class="field">
+                <span>회사 / 기관</span>
+                <input name="company" type="text" autocomplete="organization" placeholder="○○병원 / ○○시청" />
+              </label>
+            </div>
+            <div class="field-row">
+              <label class="field">
+                <span>이메일 *</span>
+                <input name="email" type="email" required autocomplete="email" placeholder="you@company.com" />
+              </label>
+              <label class="field">
+                <span>연락처</span>
+                <input name="phone" type="tel" autocomplete="tel" placeholder="010-0000-0000" />
+              </label>
+            </div>
+            <label class="field">
+              <span>관심 분야 *</span>
+              <select name="category" required>
+                <option value="" disabled selected>선택해 주세요</option>
+                <option value="hospital">병원 입원실 · 병상 네임텍</option>
+                <option value="meeting">회의실 전자명패</option>
+                <option value="reservation">예약 룸 · 테이블 표시</option>
+                <option value="office">관공서 · 기업 사무실 명패</option>
+                <option value="mixed">복합 / 기타</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>문의 내용 *</span>
+              <textarea name="message" rows="5" required placeholder="도입 예정 규모, 일정, 연동 시스템 등을 적어 주세요."></textarea>
+            </label>
+            <button class="btn btn-primary btn-block" type="submit" data-submit>
+              문의 보내기
+            </button>
+            <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div class="footer-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <strong>SIGNET ESL</strong>
+          <p>전자명패 · 예약 디스플레이 솔루션</p>
+        </div>
+      </div>
+      <p class="footer-note">© <span data-year></span> SIGNET ESL</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

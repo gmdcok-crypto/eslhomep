@@ -1,0 +1,772 @@
+{
+  "version": "2.14",
+  "variables": {
+    "ink": { "type": "color", "value": "#0B1110" },
+    "mist": { "type": "color", "value": "#E8F0EC" },
+    "paper": { "type": "color", "value": "#F4F7F5" },
+    "teal": { "type": "color", "value": "#2F7F75" },
+    "tealDeep": { "type": "color", "value": "#17574F" },
+    "tealBright": { "type": "color", "value": "#3D9B8F" },
+    "amber": { "type": "color", "value": "#D4892A" },
+    "panel": { "type": "color", "value": "#C8D5CD" },
+    "bezel": { "type": "color", "value": "#1A2422" }
+  },
+  "children": [
+    {
+      "type": "frame",
+      "id": "heroDesktop",
+      "name": "Hero / Desktop 1440 — Cinematic",
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 900,
+      "clip": true,
+      "layout": "none",
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 155,
+        "size": { "height": 1 },
+        "center": { "x": 0.5, "y": 0.5 },
+        "colors": [
+          { "color": "#050A09", "position": 0 },
+          { "color": "#0D1A18", "position": 0.45 },
+          { "color": "#12302C", "position": 1 }
+        ]
+      },
+      "children": [
+        {
+          "type": "ellipse",
+          "id": "orbA",
+          "name": "Orb Teal",
+          "x": 820,
+          "y": 40,
+          "width": 520,
+          "height": 520,
+          "fill": "#3D9B8F66",
+          "effect": {
+            "type": "blur",
+            "radius": 80
+          }
+        },
+        {
+          "type": "ellipse",
+          "id": "orbB",
+          "name": "Orb Blue",
+          "x": -40,
+          "y": 520,
+          "width": 340,
+          "height": 340,
+          "fill": "#4D74A855",
+          "effect": {
+            "type": "blur",
+            "radius": 70
+          }
+        },
+        {
+          "type": "rectangle",
+          "id": "wallPlane",
+          "name": "Wall plane",
+          "x": 760,
+          "y": 140,
+          "width": 560,
+          "height": 620,
+          "cornerRadius": 20,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": { "height": 1 },
+            "center": { "x": 0.5, "y": 0.5 },
+            "colors": [
+              { "color": "#1A2C29", "position": 0 },
+              { "color": "#0F1C1A", "position": 1 }
+            ]
+          },
+          "stroke": "#FFFFFF14",
+          "strokeWidth": 1
+        },
+        {
+          "type": "text",
+          "id": "navBrand",
+          "name": "Nav brand",
+          "x": 80,
+          "y": 36,
+          "fill": "$mist",
+          "content": "SIGNET  ESL",
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontWeight": "800"
+        },
+        {
+          "type": "text",
+          "id": "navLinks",
+          "name": "Nav links",
+          "x": 920,
+          "y": 40,
+          "fill": "#E8F0EC99",
+          "content": "솔루션    적용 현장    도입 절차    문의",
+          "fontFamily": "Inter",
+          "fontSize": 14,
+          "fontWeight": "500"
+        },
+        {
+          "type": "text",
+          "id": "heroBrand",
+          "name": "Hero brand",
+          "x": 80,
+          "y": 220,
+          "fill": "$tealBright",
+          "content": "SIGNET ESL",
+          "fontFamily": "Inter",
+          "fontSize": 30,
+          "fontWeight": "800"
+        },
+        {
+          "type": "text",
+          "id": "heroTitle",
+          "name": "Hero title",
+          "x": 80,
+          "y": 280,
+          "fill": "#FFFFFF",
+          "content": "공간이 스스로\n말하는 ESL명패",
+          "fontFamily": "Inter",
+          "fontSize": 56,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "heroLead",
+          "name": "Hero lead",
+          "x": 80,
+          "y": 440,
+          "fill": "#E8F0ECB8",
+          "content": "병상·회의실·예약 테이블·사무실 명패까지,\n실시간 정보가 읽히는 ESL 디스플레이.",
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontWeight": "400"
+        },
+        {
+          "type": "frame",
+          "id": "ctaPrimary",
+          "name": "CTA Primary",
+          "x": 80,
+          "y": 540,
+          "width": 148,
+          "height": 48,
+          "cornerRadius": 999,
+          "fill": "#0B1110",
+          "stroke": "#FFFFFF22",
+          "strokeWidth": 1,
+          "layout": "horizontal",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ctaPrimaryLabel",
+              "fill": "#FFFFFF",
+              "content": "도입 문의",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ctaGhost",
+          "name": "CTA Ghost",
+          "x": 244,
+          "y": 540,
+          "width": 148,
+          "height": 48,
+          "cornerRadius": 999,
+          "fill": "#FFFFFF14",
+          "stroke": "#FFFFFF40",
+          "strokeWidth": 1,
+          "layout": "horizontal",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ctaGhostLabel",
+              "fill": "$mist",
+              "content": "솔루션 보기",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eslRoomBezel",
+          "name": "ESL Room device",
+          "x": 980,
+          "y": 160,
+          "width": 300,
+          "height": 188,
+          "cornerRadius": 14,
+          "fill": "$bezel",
+          "layout": "vertical",
+          "padding": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "eslRoomPanel",
+              "width": "fill_container",
+              "height": "fill_container",
+              "cornerRadius": 9,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 165,
+                "size": { "height": 1 },
+                "center": { "x": 0.5, "y": 0.5 },
+                "colors": [
+                  { "color": "#EEF4F0", "position": 0 },
+                  { "color": "#C8D5CD", "position": 1 }
+                ]
+              },
+              "layout": "vertical",
+              "padding": 16,
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eslRoomTop",
+                  "fill": "#3A4542",
+                  "content": "회의실 A          ● 회의중",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "eslRoomTitle",
+                  "fill": "$ink",
+                  "content": "분기 전략 워크숍",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "eslRoomMeta",
+                  "fill": "#3A4542",
+                  "content": "14:00 – 16:00 · 마케팅팀",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400"
+                },
+                {
+                  "type": "rectangle",
+                  "id": "eslRoomBar",
+                  "width": "fill_container",
+                  "height": 4,
+                  "cornerRadius": 99,
+                  "fill": "$tealBright"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eslBedBezel",
+          "name": "ESL Bed device",
+          "x": 780,
+          "y": 380,
+          "width": 260,
+          "height": 168,
+          "cornerRadius": 14,
+          "fill": "$bezel",
+          "layout": "vertical",
+          "padding": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "eslBedPanel",
+              "width": "fill_container",
+              "height": "fill_container",
+              "cornerRadius": 9,
+              "fill": "$mist",
+              "layout": "vertical",
+              "padding": 14,
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eslBedTop",
+                  "fill": "#3A4542",
+                  "content": "301-2               ● 입원",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "eslBedTitle",
+                  "fill": "$ink",
+                  "content": "김○○ · 내과",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "eslBedMeta",
+                  "fill": "#3A4542",
+                  "content": "담당 간호 · 금식 · 낙상주의",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "400"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eslDeskBezel",
+          "name": "ESL Desk device",
+          "x": 1040,
+          "y": 580,
+          "width": 240,
+          "height": 148,
+          "cornerRadius": 14,
+          "fill": "$bezel",
+          "layout": "vertical",
+          "padding": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "eslDeskPanel",
+              "width": "fill_container",
+              "height": "fill_container",
+              "cornerRadius": 9,
+              "fill": "$panel",
+              "layout": "vertical",
+              "padding": 14,
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "eslDeskTop",
+                  "fill": "$tealDeep",
+                  "content": "Desk 12        ● 예약가능",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "eslDeskTitle",
+                  "fill": "$ink",
+                  "content": "집중 업무 존",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "eslDeskMeta",
+                  "fill": "#3A4542",
+                  "content": "다음 예약 17:30",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "400"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "solutionsFrame",
+      "name": "Solutions / Modern",
+      "x": 0,
+      "y": 980,
+      "width": 1440,
+      "height": 720,
+      "clip": true,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": { "height": 1 },
+        "center": { "x": 0.5, "y": 0.5 },
+        "colors": [
+          { "color": "#071110", "position": 0 },
+          { "color": "#0B1715", "position": 1 }
+        ]
+      },
+      "layout": "vertical",
+      "padding": [64, 80],
+      "gap": 36,
+      "children": [
+        {
+          "type": "text",
+          "id": "solEyebrow",
+          "fill": "$tealBright",
+          "content": "SOLUTIONS",
+          "fontFamily": "Inter",
+          "fontSize": 12,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "solTitle",
+          "fill": "#FFFFFF",
+          "content": "현장마다 다른 정보, 하나의 ESL 체계",
+          "fontFamily": "Inter",
+          "fontSize": 40,
+          "fontWeight": "700"
+        },
+        {
+          "type": "frame",
+          "id": "solGrid",
+          "name": "Solution cards",
+          "width": "fill_container",
+          "height": 360,
+          "layout": "horizontal",
+          "gap": 18,
+          "children": [
+            {
+              "type": "frame",
+              "id": "solCard1",
+              "width": "fill_container",
+              "height": "fill_container",
+              "cornerRadius": 20,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 145,
+                "size": { "height": 1 },
+                "center": { "x": 0.5, "y": 0.5 },
+                "colors": [
+                  { "color": "#B7C8D4", "position": 0 },
+                  { "color": "#9EB0A8", "position": 1 }
+                ]
+              },
+              "layout": "vertical",
+              "padding": 28,
+              "gap": 10,
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sol1i",
+                  "fill": "$tealDeep",
+                  "content": "01",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "sol1t",
+                  "fill": "$ink",
+                  "content": "병원 병상 네임텍",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "sol1d",
+                  "fill": "#3A4542",
+                  "content": "환자·주의사항 실시간 표시",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "400"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "solCard2",
+              "width": "fill_container",
+              "height": "fill_container",
+              "cornerRadius": 20,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 150,
+                "size": { "height": 1 },
+                "center": { "x": 0.5, "y": 0.5 },
+                "colors": [
+                  { "color": "#1A2825", "position": 0 },
+                  { "color": "#8FA39A", "position": 1 }
+                ]
+              },
+              "layout": "vertical",
+              "padding": 28,
+              "gap": 10,
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sol2i",
+                  "fill": "$tealBright",
+                  "content": "02",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "sol2t",
+                  "fill": "#FFFFFF",
+                  "content": "회의실 전자명패",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "sol2d",
+                  "fill": "#E8F0ECCC",
+                  "content": "예약·사용중 상태 동기화",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "400"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "solCard3",
+              "width": "fill_container",
+              "height": "fill_container",
+              "cornerRadius": 20,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 160,
+                "size": { "height": 1 },
+                "center": { "x": 0.5, "y": 0.5 },
+                "colors": [
+                  { "color": "#C5D2C9", "position": 0 },
+                  { "color": "#5C6B64", "position": 1 }
+                ]
+              },
+              "layout": "vertical",
+              "padding": 28,
+              "gap": 10,
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sol3i",
+                  "fill": "$amber",
+                  "content": "03",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "sol3t",
+                  "fill": "#FFFFFF",
+                  "content": "예약 룸·테이블",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "sol3d",
+                  "fill": "#FFFFFFCC",
+                  "content": "예약자·시간 테이블 표시",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "400"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "solCard4",
+              "width": "fill_container",
+              "height": "fill_container",
+              "cornerRadius": 20,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 155,
+                "size": { "height": 1 },
+                "center": { "x": 0.5, "y": 0.5 },
+                "colors": [
+                  { "color": "#6D7C8A", "position": 0 },
+                  { "color": "#E4EBE7", "position": 1 }
+                ]
+              },
+              "layout": "vertical",
+              "padding": 28,
+              "gap": 10,
+              "justifyContent": "end",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "sol4i",
+                  "fill": "$tealDeep",
+                  "content": "04",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "sol4t",
+                  "fill": "$ink",
+                  "content": "관공서·사무실 명패",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "sol4d",
+                  "fill": "#3A4542",
+                  "content": "부서·직책 무선 갱신",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "400"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "mobileHero",
+      "name": "Hero / Mobile 390 — Cinematic",
+      "x": 1600,
+      "y": 0,
+      "width": 390,
+      "height": 844,
+      "clip": true,
+      "fill": {
+        "type": "gradient",
+        "gradientType": "linear",
+        "enabled": true,
+        "rotation": 180,
+        "size": { "height": 1 },
+        "center": { "x": 0.5, "y": 0.5 },
+        "colors": [
+          { "color": "#050A09", "position": 0 },
+          { "color": "#12302C", "position": 1 }
+        ]
+      },
+      "layout": "vertical",
+      "padding": [28, 20],
+      "gap": 24,
+      "children": [
+        {
+          "type": "text",
+          "id": "mBrand",
+          "fill": "$tealBright",
+          "content": "SIGNET ESL",
+          "fontFamily": "Inter",
+          "fontSize": 22,
+          "fontWeight": "800"
+        },
+        {
+          "type": "text",
+          "id": "mTitle",
+          "fill": "#FFFFFF",
+          "content": "공간이 스스로\n말하는 ESL명패",
+          "fontFamily": "Inter",
+          "fontSize": 34,
+          "fontWeight": "700"
+        },
+        {
+          "type": "text",
+          "id": "mLead",
+          "fill": "#E8F0ECB3",
+          "content": "병상·회의실·예약 테이블·사무실 명패 ESL",
+          "fontFamily": "Inter",
+          "fontSize": 15,
+          "fontWeight": "400"
+        },
+        {
+          "type": "frame",
+          "id": "mBezel",
+          "width": "fill_container",
+          "height": 170,
+          "cornerRadius": 14,
+          "fill": "$bezel",
+          "layout": "vertical",
+          "padding": 8,
+          "children": [
+            {
+              "type": "frame",
+              "id": "mPanel",
+              "width": "fill_container",
+              "height": "fill_container",
+              "cornerRadius": 9,
+              "fill": "$panel",
+              "layout": "vertical",
+              "padding": 16,
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mPanelT",
+                  "fill": "$amber",
+                  "content": "회의실 A · ● 회의중",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "mPanelH",
+                  "fill": "$ink",
+                  "content": "분기 전략 워크숍",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "mPanelM",
+                  "fill": "#3A4542",
+                  "content": "14:00 – 16:00 · 마케팅팀",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "400"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "note",
+      "id": "designNote",
+      "name": "Sync note",
+      "x": 0,
+      "y": 1780,
+      "width": 420,
+      "height": 140,
+      "content": "Synced with frontend full-dark cinematic theme:\n- All sections match hero (#071110)\n- Teal bright accent #3D9B8F\n- Device bezels + e-paper panels\n- Solutions / Scenes / Contact dark glass"
+    }
+  ]
+}

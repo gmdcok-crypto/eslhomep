@@ -245,14 +245,24 @@
 
         <div class="solution-list">
           <article class="solution" data-reveal>
-            <div class="solution-visual solution-visual--hospital">
-              <div class="device-mount">
-                <div class="mock-bed-screen">
-                  <div class="mock-bed-row"><span>병상 214-A</span><span class="live-dot"></span></div>
-                  <strong>이○○</strong>
-                  <span>외과 · 수술 예정 09:30</span>
-                </div>
-              </div>
+            <div class="solution-visual solution-visual--hospital solution-visual--photo">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="images/solution-hospital-v1.webp 800w, images/solution-hospital-v1@2x.webp 1024w"
+                  sizes="(max-width: 960px) 92vw, 480px"
+                />
+                <img
+                  src="images/solution-hospital-v1.jpg"
+                  srcset="images/solution-hospital-v1.jpg 800w, images/solution-hospital-v1@2x.jpg 1024w"
+                  sizes="(max-width: 960px) 92vw, 480px"
+                  width="800"
+                  height="435"
+                  alt="병원 입원실 병실안내 및 병상 네임텍 현장"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div class="solution-copy">
               <span class="sol-index">01</span>

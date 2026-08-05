@@ -309,15 +309,24 @@
           </article>
 
           <article class="solution" data-reveal>
-            <div class="solution-visual solution-visual--table">
-              <div class="device-mount device-mount--table">
-                <div class="mock-table-top"></div>
-                <div class="mock-table-screen">
-                  <span>Table 07</span>
-                  <strong>12:30 예약</strong>
-                  <em>한○○ 외 3명</em>
-                </div>
-              </div>
+            <div class="solution-visual solution-visual--table solution-visual--photo">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="images/solution-reservation-v1.webp 800w, images/solution-reservation-v1@2x.webp 1024w"
+                  sizes="(max-width: 960px) 92vw, 480px"
+                />
+                <img
+                  src="images/solution-reservation-v1.jpg"
+                  srcset="images/solution-reservation-v1.jpg 800w, images/solution-reservation-v1@2x.jpg 1024w"
+                  sizes="(max-width: 960px) 92vw, 480px"
+                  width="800"
+                  height="435"
+                  alt="예약 룸·테이블 ESL 예약정보 표시 현장"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div class="solution-copy">
               <span class="sol-index">03</span>

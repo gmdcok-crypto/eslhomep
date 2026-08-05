@@ -58,14 +58,24 @@
     const dotsWrap = slider.querySelector("[data-slider-dots]");
     const prevBtn = slider.querySelector("[data-slider-prev]");
     const nextBtn = slider.querySelector("[data-slider-next]");
+    const caption = slider.querySelector("[data-slider-caption]");
+    const captionTag = caption?.querySelector("[data-caption-tag]");
+    const captionLabel = caption?.querySelector("[data-caption-label]");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let index = 0;
     let timer = null;
+
+    const syncCaption = (slide) => {
+      if (!slide || !caption) return;
+      if (captionTag) captionTag.textContent = slide.dataset.captionTag || "";
+      if (captionLabel) captionLabel.textContent = slide.dataset.captionLabel || "";
+    };
 
     const go = (next) => {
       index = (next + slides.length) % slides.length;
       if (track) track.style.transform = `translateX(-${index * 100}%)`;
       slides.forEach((slide, i) => slide.classList.toggle("is-active", i === index));
+      syncCaption(slides[index]);
       dotsWrap?.querySelectorAll(".slider-dot").forEach((dot, i) => {
         dot.classList.toggle("is-active", i === index);
         dot.setAttribute("aria-selected", i === index ? "true" : "false");

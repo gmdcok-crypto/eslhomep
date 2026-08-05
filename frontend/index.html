@@ -62,7 +62,12 @@
           <div class="hero-slider" data-slider aria-roledescription="carousel" aria-label="ESL 샘플 이미지">
             <div class="hero-slider-viewport">
               <div class="hero-slider-track" data-slider-track>
-                <figure class="hero-slide is-active" data-slide>
+                <figure
+                  class="hero-slide is-active"
+                  data-slide
+                  data-caption-tag="Meeting"
+                  data-caption-label="회의실 ESL 명패"
+                >
                   <picture>
                     <source
                       type="image/webp"
@@ -80,13 +85,15 @@
                       fetchpriority="high"
                     />
                   </picture>
-                  <figcaption>
-                    <span class="slide-tag">Meeting</span>
-                    <span>회의실 ESL 명패</span>
-                  </figcaption>
                 </figure>
 
-                <figure class="hero-slide" data-slide data-slot="hospital">
+                <figure
+                  class="hero-slide"
+                  data-slide
+                  data-slot="hospital"
+                  data-caption-tag="Hospital"
+                  data-caption-label="병실안내"
+                >
                   <picture>
                     <source
                       type="image/webp"
@@ -104,13 +111,15 @@
                       loading="lazy"
                     />
                   </picture>
-                  <figcaption>
-                    <span class="slide-tag">Hospital</span>
-                    <span>병실안내</span>
-                  </figcaption>
                 </figure>
 
-                <figure class="hero-slide" data-slide data-slot="office">
+                <figure
+                  class="hero-slide"
+                  data-slide
+                  data-slot="office"
+                  data-caption-tag="Office"
+                  data-caption-label="사무실 명패"
+                >
                   <picture>
                     <source
                       type="image/webp"
@@ -128,13 +137,14 @@
                       loading="lazy"
                     />
                   </picture>
-                  <figcaption>
-                    <span class="slide-tag">Office</span>
-                    <span>사무실 명패</span>
-                  </figcaption>
                 </figure>
               </div>
             </div>
+
+            <p class="hero-slide-caption" data-slider-caption aria-live="polite">
+              <span class="slide-tag" data-caption-tag>Meeting</span>
+              <span data-caption-label>회의실 ESL 명패</span>
+            </p>
 
             <div class="hero-slider-ui">
               <button type="button" class="slider-nav slider-prev" data-slider-prev aria-label="이전 샘플">‹</button>

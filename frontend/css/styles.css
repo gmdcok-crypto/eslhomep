@@ -518,9 +518,10 @@ ul {
 .hero-slide img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   aspect-ratio: 800 / 435;
   object-fit: cover;
+  object-position: center;
   background: #1a2422;
 }
 
@@ -566,14 +567,17 @@ ul {
   color: rgba(232, 240, 236, 0.42);
 }
 
-.hero-slide figcaption {
+.hero-slide-caption {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.65rem;
-  padding: 0.7rem 0.9rem 0.85rem;
-  font-size: 0.86rem;
-  color: rgba(232, 240, 236, 0.72);
-  background: linear-gradient(180deg, #141c1a, #0e1513);
+  margin: 0.85rem 0 0;
+  padding: 0;
+  font-size: 0.9rem;
+  color: rgba(232, 240, 236, 0.78);
+  background: none;
+  border: none;
 }
 
 .slide-tag {
@@ -594,7 +598,7 @@ ul {
   align-items: center;
   justify-content: center;
   gap: 0.85rem;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
 }
 
 .slider-nav {

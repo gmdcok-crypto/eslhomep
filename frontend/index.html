@@ -332,14 +332,24 @@
           </article>
 
           <article class="solution solution--flip" data-reveal>
-            <div class="solution-visual solution-visual--office">
-              <div class="device-mount">
-                <div class="mock-office-plate">
-                  <span>Room 502</span>
-                  <strong>정책기획과</strong>
-                  <em>과장 박○○</em>
-                </div>
-              </div>
+            <div class="solution-visual solution-visual--office solution-visual--photo">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="images/solution-office-v1.webp 800w, images/solution-office-v1@2x.webp 1024w"
+                  sizes="(max-width: 960px) 92vw, 480px"
+                />
+                <img
+                  src="images/solution-office-v1.jpg"
+                  srcset="images/solution-office-v1.jpg 800w, images/solution-office-v1@2x.jpg 1024w"
+                  sizes="(max-width: 960px) 92vw, 480px"
+                  width="800"
+                  height="435"
+                  alt="관공서·기업 사무실 ESL 명패 현장"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <div class="solution-copy">
               <span class="sol-index">04</span>

@@ -19,8 +19,9 @@ app.add_middleware(SlowAPIMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origin_list,
-    allow_credentials=True,
+    allow_origins=settings.cors_origin_list or ["*"],
+    allow_origin_regex=r"https://.*\.netlify\.app",
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

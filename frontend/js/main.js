@@ -168,7 +168,14 @@
         form.reset();
         setStatus("문의가 접수되었습니다. 빠르게 연락드리겠습니다.", "is-ok");
       } catch (err) {
-        setStatus(err.message || "네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.", "is-err");
+        const msg = String(err && err.message ? err.message : "");
+        if (!apiBase) {
+          setStatus("API 주소가 설정되지 않았습니다.", "is-err");
+        } else if (/failed to fetch|networkerror|load failed/i.test(msg)) {
+          setStatus("서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.", "is-err");
+        } else {
+          setStatus(msg || "네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.", "is-err");
+        }
       } finally {
         form.classList.remove("is-loading");
       }

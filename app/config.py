@@ -11,7 +11,12 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     port: int = 8080
-    cors_origins: str = "http://localhost:5500,http://127.0.0.1:5500"
+    cors_origins: str = (
+        "http://localhost:5500,"
+        "http://127.0.0.1:5500,"
+        "https://esl.bluecs.co.kr,"
+        "https://eslsub.netlify.app"
+    )
     database_url: Optional[str] = Field(
         default=None,
         validation_alias=AliasChoices("DATABASE_URL", "MYSQL_URL"),

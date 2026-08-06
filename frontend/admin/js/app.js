@@ -22,9 +22,39 @@ const totalCount = document.getElementById("total-count");
 const latestId = document.getElementById("latest-id");
 const notifyBtn = document.getElementById("notify-btn");
 const refreshBtn = document.getElementById("refresh-btn");
+const mobileTip = document.getElementById("mobile-tip");
 
 let pollTimer = null;
 let lastSeenId = 0;
+let pushReady = false;
+
+function isIos() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function isStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+function updateMobileTip() {
+  if (!mobileTip) return;
+  if (isIos() && !isStandalone()) {
+    mobileTip.hidden = false;
+    mobileTip.textContent =
+      "아이폰/아이패드는 Safari에서 공유 → '홈 화면에 추가' 후, 홈 화면 앱으로 열고 알림 켜기를 눌러야 푸시가 옵니다.";
+    return;
+  }
+  if (!("PushManager" in window)) {
+    mobileTip.hidden = false;
+    mobileTip.textContent =
+      "이 브라우저에서는 푸시 알림을 지원하지 않습니다. Chrome/Safari(홈 화면 앱)를 사용해 주세요.";
+    return;
+  }
+  mobileTip.hidden = true;
+}
 
 function loadState() {
   try {
@@ -182,11 +212,15 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 async function subscribeWebPush() {
+  if (isIos() && !isStandalone()) {
+    throw new Error("아이폰은 홈 화면에 추가한 앱에서만 알림을 켤 수 있습니다.");
+  }
   if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
     throw new Error("이 브라우저는 푸시 알림을 지원하지 않습니다.");
   }
   const { publicKey } = await apiFetch("/api/admin/push/vapid-public-key");
-  const reg = await navigator.serviceWorker.ready;
+  const reg = await navigator.serviceWorker.register("/admin/sw.js");
+  await navigator.serviceWorker.ready;
   let subscription = await reg.pushManager.getSubscription();
   if (!subscription) {
     subscription = await reg.pushManager.subscribe({
@@ -199,6 +233,19 @@ async function subscribeWebPush() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(subscription.toJSON()),
   });
+  pushReady = true;
+  saveState({ ...getConfig(), pushReady: true });
+}
+
+async function hasLocalPushSubscription() {
+  try {
+    if (!("serviceWorker" in navigator) || !("PushManager" in window)) return false;
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.getSubscription();
+    return !!sub;
+  } catch (_) {
+    return false;
+  }
 }
 
 async function refreshInquiries({ notify = false, sinceOnly = false } = {}) {
@@ -295,43 +342,66 @@ async function handleLogin() {
 }
 
 async function enableNotifications() {
+  updateMobileTip();
+  if (isIos() && !isStandalone()) {
+    setStatus(
+      dashboardStatus,
+      "아이폰은 홈 화면에 추가한 뒤, 그 앱에서 알림 켜기를 눌러 주세요.",
+      "is-err"
+    );
+    return;
+  }
   if (!("Notification" in window)) {
     setStatus(dashboardStatus, "이 브라우저는 알림을 지원하지 않습니다.", "is-err");
     return;
   }
   const permission = await Notification.requestPermission();
   if (permission !== "granted") {
-    syncNotifyState();
+    await syncNotifyState();
     setStatus(dashboardStatus, "알림 권한이 필요합니다.", "is-err");
     return;
   }
   try {
     await subscribeWebPush();
-    syncNotifyState();
-    setStatus(dashboardStatus, "푸시 알림이 활성화되었습니다. 앱을 닫아도 알림이 옵니다.", "is-ok");
+    await syncNotifyState();
+    setStatus(dashboardStatus, "이 휴대폰 알림이 켜졌습니다. 앱을 닫아도 알림이 옵니다.", "is-ok");
   } catch (err) {
-    syncNotifyState();
+    pushReady = false;
+    await syncNotifyState();
     setStatus(dashboardStatus, err.message || "푸시 구독에 실패했습니다.", "is-err");
   }
 }
 
 async function ensurePushSubscription() {
   if (!("Notification" in window) || Notification.permission !== "granted") return;
+  if (isIos() && !isStandalone()) return;
   try {
     await subscribeWebPush();
+    await syncNotifyState();
   } catch (_) {
     // ignore until user taps again
   }
 }
 
-function syncNotifyState() {
+async function syncNotifyState() {
   if (!notifyBtn) return;
+  updateMobileTip();
+
   if (!("Notification" in window)) {
     notifyBtn.hidden = true;
     return;
   }
-  // 권한이 켜져 있으면 버튼 숨김, 풀리거나 미설정이면 다시 표시
-  notifyBtn.hidden = Notification.permission === "granted";
+
+  const subscribed = await hasLocalPushSubscription();
+  pushReady = subscribed;
+
+  // Hide button only when this device is fully subscribed
+  if (Notification.permission === "granted" && subscribed) {
+    notifyBtn.hidden = true;
+    return;
+  }
+
+  notifyBtn.hidden = false;
   notifyBtn.disabled = Notification.permission === "denied";
   notifyBtn.textContent =
     Notification.permission === "denied" ? "알림 차단됨" : "알림 켜기";

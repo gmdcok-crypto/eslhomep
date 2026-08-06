@@ -1667,6 +1667,19 @@ ul {
     order: initial;
   }
 
+  .solution-visual,
+  .solution-visual--photo {
+    min-height: 0;
+    aspect-ratio: 800 / 435;
+  }
+
+  .solution-visual--photo picture,
+  .solution-visual--photo img {
+    min-height: 0;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
   .hero {
     min-height: auto;
   }

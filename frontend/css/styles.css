@@ -473,6 +473,14 @@ ul {
   color: var(--white);
 }
 
+.hero h1 .brand-word {
+  white-space: nowrap;
+}
+
+.hero-br-mobile {
+  display: none;
+}
+
 .hero-em {
   background: linear-gradient(120deg, var(--teal-bright), #9fd8cf 50%, var(--amber));
   -webkit-background-clip: text;
@@ -1690,6 +1698,10 @@ ul {
 
   .hero h1 {
     max-width: none;
+  }
+
+  .hero-br-mobile {
+    display: block;
   }
 
   .hero-stage {

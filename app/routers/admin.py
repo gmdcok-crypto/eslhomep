@@ -10,6 +10,7 @@ from app.config import get_settings
 from app.database import get_db
 from app.dependencies import require_admin_key
 from app.models import Inquiry, PushSubscription
+from app.services.push import send_test_push
 from app.schemas import InquiryListResponse, InquiryRead, PushSubscribeRequest, VapidPublicResponse
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
@@ -104,3 +105,20 @@ def subscribe_push(
         )
     db.commit()
     return {"ok": True, "message": "subscribed"}
+
+
+@router.post("/push/test")
+def test_push(
+    _auth: None = Depends(require_admin_key),
+    db: Session = Depends(get_db),
+) -> dict:
+    result = send_test_push(db)
+    if result.get("sent", 0) < 1:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "푸시를 보낼 구독이 없거나 만료되었습니다. "
+                "이 기기에서 알림 켜기를 다시 눌러 주세요."
+            ),
+        )
+    return {"ok": True, "message": "test push sent", **result}

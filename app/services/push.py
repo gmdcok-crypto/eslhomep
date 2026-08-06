@@ -18,17 +18,59 @@ CATEGORY_LABELS = {
 }
 
 
-def send_inquiry_push(db: Session, inquiry: Inquiry) -> None:
+def _send_to_subscriptions(db: Session, payload: str) -> dict:
     settings = get_settings()
-    public_key = settings.clean_vapid_public_key
     private_key = settings.clean_vapid_private_key
-    if not public_key or not private_key:
-        return
+    if not private_key or not settings.clean_vapid_public_key:
+        print("push skipped: VAPID keys missing")
+        return {"sent": 0, "failed": 0, "stale": 0, "total": 0, "error": "VAPID keys missing"}
 
     subs = db.scalars(select(PushSubscription)).all()
     if not subs:
-        return
+        print("push skipped: no subscriptions")
+        return {"sent": 0, "failed": 0, "stale": 0, "total": 0, "error": "no subscriptions"}
 
+    stale_ids: list[int] = []
+    sent = 0
+    failed = 0
+    for sub in subs:
+        try:
+            # pywebpush accepts raw urlsafe 32-byte private key; do NOT pass vapid_public_key
+            webpush(
+                subscription_info={
+                    "endpoint": sub.endpoint,
+                    "keys": {"p256dh": sub.p256dh, "auth": sub.auth},
+                },
+                data=payload,
+                vapid_private_key=private_key,
+                vapid_claims={
+                    "sub": settings.vapid_subject or "mailto:admin@bluecs.co.kr",
+                },
+                ttl=86400,
+            )
+            sent += 1
+        except WebPushException as exc:
+            failed += 1
+            status = getattr(getattr(exc, "response", None), "status_code", None)
+            print(f"push failed status={status}: {exc}")
+            if status in {404, 410}:
+                stale_ids.append(sub.id)
+        except Exception as exc:  # noqa: BLE001
+            failed += 1
+            print(f"push failed: {exc}")
+
+    if stale_ids:
+        for sub in subs:
+            if sub.id in stale_ids:
+                db.delete(sub)
+        db.commit()
+
+    result = {"sent": sent, "failed": failed, "stale": len(stale_ids), "total": len(subs)}
+    print(f"push done: {result}")
+    return result
+
+
+def send_inquiry_push(db: Session, inquiry: Inquiry) -> dict:
     title = "새 문의 접수"
     body = f"{inquiry.name} · {CATEGORY_LABELS.get(inquiry.category, inquiry.category)}"
     payload = json.dumps(
@@ -40,32 +82,16 @@ def send_inquiry_push(db: Session, inquiry: Inquiry) -> None:
         },
         ensure_ascii=False,
     )
+    return _send_to_subscriptions(db, payload)
 
-    stale_ids: list[int] = []
-    for sub in subs:
-        try:
-            webpush(
-                subscription_info={
-                    "endpoint": sub.endpoint,
-                    "keys": {"p256dh": sub.p256dh, "auth": sub.auth},
-                },
-                data=payload,
-                vapid_private_key=private_key,
-                vapid_claims={
-                    "sub": settings.vapid_subject or "mailto:admin@bluecs.co.kr",
-                },
-                vapid_public_key=public_key,
-            )
-        except WebPushException as exc:
-            status = getattr(getattr(exc, "response", None), "status_code", None)
-            print(f"push failed: {exc}")
-            if status in {404, 410}:
-                stale_ids.append(sub.id)
-        except Exception as exc:  # noqa: BLE001
-            print(f"push failed: {exc}")
 
-    if stale_ids:
-        for sub in subs:
-            if sub.id in stale_ids:
-                db.delete(sub)
-        db.commit()
+def send_test_push(db: Session) -> dict:
+    payload = json.dumps(
+        {
+            "title": "알림 테스트",
+            "body": "푸시 알림이 정상 동작합니다.",
+            "url": "/admin/",
+        },
+        ensure_ascii=False,
+    )
+    return _send_to_subscriptions(db, payload)

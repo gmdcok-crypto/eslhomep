@@ -203,11 +203,19 @@ async function notifyNewInquiries(items) {
 }
 
 function urlBase64ToUint8Array(base64String) {
-  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const cleaned = String(base64String || "")
+    .trim()
+    .replace(/^"|"$/g, "")
+    .replace(/^'|'$/g, "")
+    .replace(/\s+/g, "");
+  const padding = "=".repeat((4 - (cleaned.length % 4)) % 4);
+  const base64 = (cleaned + padding).replace(/-/g, "+").replace(/_/g, "/");
   const raw = atob(base64);
   const output = new Uint8Array(raw.length);
   for (let i = 0; i < raw.length; i += 1) output[i] = raw.charCodeAt(i);
+  if (output.length !== 65 || output[0] !== 0x04) {
+    throw new Error("서버 VAPID 공개키 형식이 올바르지 않습니다. Railway 환경변수를 확인해 주세요.");
+  }
   return output;
 }
 
@@ -219,15 +227,24 @@ async function subscribeWebPush() {
     throw new Error("이 브라우저는 푸시 알림을 지원하지 않습니다.");
   }
   const { publicKey } = await apiFetch("/api/admin/push/vapid-public-key");
+  const applicationServerKey = urlBase64ToUint8Array(publicKey);
   const reg = await navigator.serviceWorker.register("/admin/sw.js");
   await navigator.serviceWorker.ready;
-  let subscription = await reg.pushManager.getSubscription();
-  if (!subscription) {
-    subscription = await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publicKey),
-    });
+
+  // Old/invalid subscription can block resubscribe with a new VAPID key
+  const existing = await reg.pushManager.getSubscription();
+  if (existing) {
+    try {
+      await existing.unsubscribe();
+    } catch (_) {
+      // ignore
+    }
   }
+
+  const subscription = await reg.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey,
+  });
   await apiFetch("/api/admin/push/subscribe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

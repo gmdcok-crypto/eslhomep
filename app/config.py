@@ -65,6 +65,21 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("VAPID_SUBJECT"),
     )
 
+    @staticmethod
+    def _clean_key(value: Optional[str]) -> Optional[str]:
+        if not value:
+            return None
+        cleaned = value.strip().strip('"').strip("'").replace("\n", "").replace("\r", "").replace(" ", "")
+        return cleaned or None
+
+    @property
+    def clean_vapid_public_key(self) -> Optional[str]:
+        return self._clean_key(self.vapid_public_key)
+
+    @property
+    def clean_vapid_private_key(self) -> Optional[str]:
+        return self._clean_key(self.vapid_private_key)
+
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]

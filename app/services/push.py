@@ -20,7 +20,9 @@ CATEGORY_LABELS = {
 
 def send_inquiry_push(db: Session, inquiry: Inquiry) -> None:
     settings = get_settings()
-    if not settings.vapid_public_key or not settings.vapid_private_key:
+    public_key = settings.clean_vapid_public_key
+    private_key = settings.clean_vapid_private_key
+    if not public_key or not private_key:
         return
 
     subs = db.scalars(select(PushSubscription)).all()
@@ -48,11 +50,11 @@ def send_inquiry_push(db: Session, inquiry: Inquiry) -> None:
                     "keys": {"p256dh": sub.p256dh, "auth": sub.auth},
                 },
                 data=payload,
-                vapid_private_key=settings.vapid_private_key,
+                vapid_private_key=private_key,
                 vapid_claims={
                     "sub": settings.vapid_subject or "mailto:admin@bluecs.co.kr",
                 },
-                vapid_public_key=settings.vapid_public_key,
+                vapid_public_key=public_key,
             )
         except WebPushException as exc:
             status = getattr(getattr(exc, "response", None), "status_code", None)

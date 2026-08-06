@@ -57,10 +57,26 @@ def delete_inquiry(
 
 @router.get("/push/vapid-public-key", response_model=VapidPublicResponse)
 def get_vapid_public_key(_auth: None = Depends(require_admin_key)) -> VapidPublicResponse:
+    import base64
+
     settings = get_settings()
-    if not settings.vapid_public_key:
+    public_key = settings.clean_vapid_public_key
+    if not public_key:
         raise HTTPException(status_code=503, detail="푸시 알림이 설정되지 않았습니다.")
-    return VapidPublicResponse(publicKey=settings.vapid_public_key)
+
+    try:
+        padded = public_key + ("=" * (-len(public_key) % 4))
+        raw = base64.urlsafe_b64decode(padded.encode("ascii"))
+    except Exception as exc:  # noqa: BLE001
+        raise HTTPException(status_code=500, detail=f"VAPID 공개키 형식이 올바르지 않습니다: {exc}") from exc
+
+    if len(raw) != 65 or raw[0] != 0x04:
+        raise HTTPException(
+            status_code=500,
+            detail="VAPID 공개키가 올바르지 않습니다. 65바이트 uncompressed key(0x04...)여야 합니다.",
+        )
+
+    return VapidPublicResponse(publicKey=public_key)
 
 
 @router.post("/push/subscribe")

@@ -1,7 +1,13 @@
 # GitHub main → Netlify auto deploy (gmdcok-crypto/eslhomep)
+# Build only the frontend folder so root Python/Railway files are ignored
 [build]
-  publish = "frontend"
+  base = "frontend"
+  publish = "."
   command = "echo Static site"
+
+[build.environment]
+  NODE_VERSION = "20"
+  SECRETS_SCAN_ENABLED = "false"
 
 [[headers]]
   for = "/*"
@@ -19,3 +25,13 @@
   for = "/js/*"
   [headers.values]
     Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 301

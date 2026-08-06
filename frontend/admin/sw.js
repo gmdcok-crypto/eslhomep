@@ -1,4 +1,4 @@
-const CACHE = "epaper-admin-v7";
+const CACHE = "epaper-admin-v8";
 const ASSETS = [
   "/admin/",
   "/admin/index.html",
@@ -25,8 +25,13 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
   const url = new URL(event.request.url);
-  // Never intercept API/cross-origin requests (breaks admin auth polling)
   if (url.origin !== self.location.origin || !url.pathname.startsWith("/admin")) {
+    return;
+  }
+
+  // Never cache the service worker itself
+  if (url.pathname.endsWith("/sw.js")) {
+    event.respondWith(fetch(event.request));
     return;
   }
 
@@ -49,22 +54,42 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("push", (event) => {
-  let data = { title: "새 문의 접수", body: "문의가 접수되었습니다.", url: "/admin/" };
-  try {
-    if (event.data) data = { ...data, ...event.data.json() };
-  } catch (_) {
-    // ignore
-  }
-  event.waitUntil(
-    self.registration.showNotification(data.title || "새 문의 접수", {
-      body: data.body || "",
+  // Must always show a notification, or browsers may drop the subscription.
+  const fallback = {
+    title: "새 문의 접수",
+    body: "문의가 접수되었습니다.",
+    url: "/admin/",
+  };
+
+  const show = async () => {
+    let data = { ...fallback };
+    try {
+      if (event.data) {
+        const parsed = event.data.json();
+        data = { ...fallback, ...parsed };
+      }
+    } catch (_) {
+      try {
+        const text = event.data && event.data.text();
+        if (text) data.body = text;
+      } catch (_) {
+        // keep fallback
+      }
+    }
+
+    await self.registration.showNotification(data.title || fallback.title, {
+      body: data.body || fallback.body,
       icon: "/admin/icons/icon-192.png",
       badge: "/admin/icons/icon-192.png",
       tag: "epaper-inquiry",
       renotify: true,
+      requireInteraction: true,
+      vibrate: [120, 60, 120],
       data: { url: data.url || "/admin/" },
-    })
-  );
+    });
+  };
+
+  event.waitUntil(show());
 });
 
 self.addEventListener("notificationclick", (event) => {
@@ -84,6 +109,15 @@ self.addEventListener("notificationclick", (event) => {
   );
 });
 
+self.addEventListener("pushsubscriptionchange", (event) => {
+  // Browser rotated the subscription; ask pages to re-sync.
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
+      clients.forEach((client) => client.postMessage({ type: "pushsubscriptionchange" }));
+    })
+  );
+});
+
 self.addEventListener("message", (event) => {
   if (event.data?.type !== "notify") return;
   const { title, body } = event.data;
@@ -94,6 +128,7 @@ self.addEventListener("message", (event) => {
       badge: "/admin/icons/icon-192.png",
       tag: "epaper-inquiry",
       renotify: true,
+      requireInteraction: true,
       data: { url: "/admin/" },
     })
   );

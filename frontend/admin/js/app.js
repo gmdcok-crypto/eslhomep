@@ -23,6 +23,7 @@ const latestId = document.getElementById("latest-id");
 const notifyBtn = document.getElementById("notify-btn");
 const refreshBtn = document.getElementById("refresh-btn");
 const mobileTip = document.getElementById("mobile-tip");
+const pushStatus = document.getElementById("push-status");
 
 let pollTimer = null;
 let lastSeenId = 0;
@@ -30,6 +31,10 @@ let pushReady = false;
 
 function isIos() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function isAndroid() {
+  return /android/i.test(navigator.userAgent);
 }
 
 function isStandalone() {
@@ -44,16 +49,32 @@ function updateMobileTip() {
   if (isIos() && !isStandalone()) {
     mobileTip.hidden = false;
     mobileTip.textContent =
-      "아이폰/아이패드는 Safari에서 공유 → '홈 화면에 추가' 후, 홈 화면 앱으로 열고 알림 켜기를 눌러야 푸시가 옵니다.";
+      "아이폰은 Safari 공유 → '홈 화면에 추가' 후, 홈 화면 앱에서 알림 켜기를 눌러야 앱을 꺼도 알림이 옵니다.";
+    return;
+  }
+  if (isAndroid() && !isStandalone()) {
+    mobileTip.hidden = false;
+    mobileTip.textContent =
+      "안드로이드는 Chrome 메뉴 → '홈 화면에 추가/앱 설치' 후, 설치한 앱에서 알림 켜기를 다시 눌러 주세요. 배터리 최적화에서 Chrome/앱 제외도 필요합니다.";
     return;
   }
   if (!("PushManager" in window)) {
     mobileTip.hidden = false;
     mobileTip.textContent =
-      "이 브라우저에서는 푸시 알림을 지원하지 않습니다. Chrome/Safari(홈 화면 앱)를 사용해 주세요.";
+      "이 브라우저에서는 백그라운드 푸시를 지원하지 않습니다. Chrome(안드로이드) 또는 홈 화면 앱(아이폰)을 사용해 주세요.";
     return;
   }
   mobileTip.hidden = true;
+}
+
+function setPushStatus(on, detail = "") {
+  if (!pushStatus) return;
+  pushStatus.hidden = false;
+  pushStatus.classList.toggle("is-on", on);
+  pushStatus.classList.toggle("is-off", !on);
+  pushStatus.textContent = on
+    ? `백그라운드 알림: 등록됨${detail ? ` (${detail})` : ""}`
+    : `백그라운드 알림: 미등록 — 앱을 꺼도 받으려면 알림 켜기를 눌러 주세요${detail ? ` (${detail})` : ""}`;
 }
 
 function loadState() {
@@ -85,7 +106,10 @@ function setStatus(el, message, type = "") {
 
 async function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return null;
-  return navigator.serviceWorker.register("/admin/sw.js");
+  return navigator.serviceWorker.register("/admin/sw.js", {
+    scope: "/admin/",
+    updateViaCache: "none",
+  });
 }
 
 async function apiFetch(path, options = {}) {
@@ -228,29 +252,25 @@ async function subscribeWebPush() {
   }
   const { publicKey } = await apiFetch("/api/admin/push/vapid-public-key");
   const applicationServerKey = urlBase64ToUint8Array(publicKey);
-  const reg = await navigator.serviceWorker.register("/admin/sw.js");
+  const reg = await registerServiceWorker();
   await navigator.serviceWorker.ready;
 
-  // Old/invalid subscription can block resubscribe with a new VAPID key
-  const existing = await reg.pushManager.getSubscription();
-  if (existing) {
-    try {
-      await existing.unsubscribe();
-    } catch (_) {
-      // ignore
-    }
+  let subscription = await reg.pushManager.getSubscription();
+  if (!subscription) {
+    subscription = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey,
+    });
   }
 
-  const subscription = await reg.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey,
-  });
+  // Always re-sync to server so closed-app push keeps working after deploys
   await apiFetch("/api/admin/push/subscribe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(subscription.toJSON()),
   });
   pushReady = true;
+  setPushStatus(true, "이 기기");
   saveState({ ...getConfig(), pushReady: true });
 }
 
@@ -390,13 +410,19 @@ async function enableNotifications() {
 }
 
 async function ensurePushSubscription() {
-  if (!("Notification" in window) || Notification.permission !== "granted") return;
-  if (isIos() && !isStandalone()) return;
+  if (!("Notification" in window) || Notification.permission !== "granted") {
+    setPushStatus(false);
+    return;
+  }
+  if (isIos() && !isStandalone()) {
+    setPushStatus(false, "홈 화면 앱 필요");
+    return;
+  }
   try {
     await subscribeWebPush();
     await syncNotifyState();
-  } catch (_) {
-    // ignore until user taps again
+  } catch (err) {
+    setPushStatus(false, err.message || "등록 실패");
   }
 }
 
@@ -406,13 +432,14 @@ async function syncNotifyState() {
 
   if (!("Notification" in window)) {
     notifyBtn.hidden = true;
+    setPushStatus(false, "미지원");
     return;
   }
 
   const subscribed = await hasLocalPushSubscription();
   pushReady = subscribed;
+  setPushStatus(subscribed);
 
-  // Hide button only when this device is fully subscribed
   if (Notification.permission === "granted" && subscribed) {
     notifyBtn.hidden = true;
     return;
@@ -449,7 +476,16 @@ refreshBtn.addEventListener("click", () => refreshInquiries().catch((err) => {
 notifyBtn.addEventListener("click", enableNotifications);
 
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "visible") syncNotifyState();
+  if (document.visibilityState === "visible") {
+    syncNotifyState();
+    ensurePushSubscription();
+  }
+});
+
+navigator.serviceWorker?.addEventListener("message", (event) => {
+  if (event.data?.type === "pushsubscriptionchange") {
+    ensurePushSubscription();
+  }
 });
 
 inquiryList.addEventListener("click", (event) => {

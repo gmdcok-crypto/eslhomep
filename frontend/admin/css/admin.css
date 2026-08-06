@@ -157,6 +157,20 @@ h1, h2 {
   line-height: 1.45;
 }
 
+.push-status {
+  margin: 0 0 0.75rem;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.push-status.is-on {
+  color: #9fd8cf;
+}
+
+.push-status.is-off {
+  color: #ffb4b4;
+}
+
 .status {
   min-height: 1.25rem;
   font-size: 0.9rem;

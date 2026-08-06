@@ -47,6 +47,7 @@ def _send_to_subscriptions(db: Session, payload: str) -> dict:
                     "sub": settings.vapid_subject or "mailto:admin@bluecs.co.kr",
                 },
                 ttl=86400,
+                headers={"Urgency": "high", "Topic": "inquiry"},
             )
             sent += 1
         except WebPushException as exc:

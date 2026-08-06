@@ -43,6 +43,10 @@ class Settings(BaseSettings):
     smtp_pass: Optional[str] = None
     smtp_from: Optional[str] = None
     inquiry_to: Optional[str] = None
+    admin_api_key: Optional[str] = Field(
+        default=None,
+        validation_alias=AliasChoices("ADMIN_API_KEY", "ADMIN_KEY"),
+    )
 
     @property
     def cors_origin_list(self) -> list[str]:

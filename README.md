@@ -75,3 +75,11 @@ uvicorn app.main:app --host 0.0.0.0 --port $PORT
 - `POST /api/inquiry`  
   body: `{ name, email, message, category, company?, phone? }`  
   category: `hospital` | `meeting` | `reservation` | `office` | `mixed`
+- `GET /api/admin/inquiries` (관리자 PWA)  
+  header: `X-Admin-Key: <ADMIN_API_KEY>`
+
+## 관리자 PWA
+
+- URL: `https://esl.bluecs.co.kr/admin/`
+- 문의 목록 조회 + 30초마다 새 접수 확인 + 브라우저 알림
+- Railway Variables에 `ADMIN_API_KEY` 설정 후 PWA 로그인 화면에서 입력

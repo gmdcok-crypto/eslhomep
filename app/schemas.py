@@ -51,3 +51,9 @@ class InquiryRead(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class InquiryListResponse(BaseModel):
+    items: list[InquiryRead]
+    total: int
+    latest_id: int

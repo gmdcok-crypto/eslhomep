@@ -8,7 +8,7 @@ from slowapi.middleware import SlowAPIMiddleware
 
 from app.config import get_settings
 from app.database import init_db
-from app.routers import health, inquiry
+from app.routers import admin, health, inquiry
 
 settings = get_settings()
 
@@ -27,6 +27,7 @@ app.add_middleware(
 
 app.include_router(health.router)
 app.include_router(inquiry.router)
+app.include_router(admin.router)
 
 
 @app.on_event("startup")

@@ -2,7 +2,13 @@ node_modules/
 .DS_Store
 Thumbs.db
 .env
-backend/data/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+data/
+*.db
 *.log
 .netlify/
 dist/
+backend/

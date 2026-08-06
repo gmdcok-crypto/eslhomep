@@ -97,6 +97,24 @@ h1, h2 {
   border: 1px solid var(--line);
 }
 
+.btn-danger {
+  background: rgba(255, 123, 123, 0.16);
+  color: var(--danger);
+  border: 1px solid rgba(255, 123, 123, 0.35);
+}
+
+.btn-sm {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.82rem;
+  border-radius: 0.55rem;
+}
+
+.inquiry-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

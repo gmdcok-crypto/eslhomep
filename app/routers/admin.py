@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
 
@@ -38,3 +38,17 @@ def list_inquiries(
         total=total,
         latest_id=latest_id,
     )
+
+
+@router.delete("/inquiries/{inquiry_id}")
+def delete_inquiry(
+    inquiry_id: int,
+    _auth: None = Depends(require_admin_key),
+    db: Session = Depends(get_db),
+) -> dict:
+    inquiry = db.get(Inquiry, inquiry_id)
+    if not inquiry:
+        raise HTTPException(status_code=404, detail="문의를 찾을 수 없습니다.")
+    db.delete(inquiry)
+    db.commit()
+    return {"ok": True, "message": "deleted", "id": inquiry_id}

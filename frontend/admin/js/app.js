@@ -86,6 +86,14 @@ function formatDate(value) {
   });
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function renderInquiries(items) {
   inquiryList.innerHTML = "";
   if (!items.length) {
@@ -96,23 +104,38 @@ function renderInquiries(items) {
   items.forEach((item) => {
     const li = document.createElement("li");
     li.className = "inquiry-card";
+    li.dataset.id = String(item.id);
     li.innerHTML = `
       <div class="inquiry-head">
-        <strong>#${item.id} ${item.name}</strong>
-        <time>${formatDate(item.created_at)}</time>
+        <strong>#${item.id} ${escapeHtml(item.name)}</strong>
+        <div class="inquiry-actions">
+          <time>${formatDate(item.created_at)}</time>
+          <button class="btn btn-danger btn-sm" type="button" data-delete="${item.id}">삭제</button>
+        </div>
       </div>
       <p class="inquiry-meta">
         <span>${CATEGORY_LABELS[item.category] || item.category}</span>
-        ${item.company ? `<span>${item.company}</span>` : ""}
+        ${item.company ? `<span>${escapeHtml(item.company)}</span>` : ""}
       </p>
       <p class="inquiry-contact">
-        <a href="mailto:${item.email}">${item.email}</a>
-        ${item.phone ? `<a href="tel:${item.phone}">${item.phone}</a>` : ""}
+        <a href="mailto:${escapeHtml(item.email)}">${escapeHtml(item.email)}</a>
+        ${item.phone ? `<a href="tel:${escapeHtml(item.phone)}">${escapeHtml(item.phone)}</a>` : ""}
       </p>
-      <p class="inquiry-message">${item.message.replace(/\n/g, "<br>")}</p>
+      <p class="inquiry-message">${escapeHtml(item.message).replace(/\n/g, "<br>")}</p>
     `;
     inquiryList.appendChild(li);
   });
+}
+
+async function deleteInquiry(id) {
+  if (!window.confirm(`문의 #${id}을(를) 삭제할까요?`)) return;
+  try {
+    await apiFetch(`/api/admin/inquiries/${id}`, { method: "DELETE" });
+    setStatus(dashboardStatus, `문의 #${id}을(를) 삭제했습니다.`, "is-ok");
+    await refreshInquiries();
+  } catch (err) {
+    setStatus(dashboardStatus, err.message || "삭제에 실패했습니다.", "is-err");
+  }
 }
 
 async function notifyNewInquiries(items) {
@@ -247,6 +270,12 @@ refreshBtn.addEventListener("click", () => refreshInquiries().catch((err) => {
   setStatus(dashboardStatus, err.message, "is-err");
 }));
 notifyBtn.addEventListener("click", enableNotifications);
+
+inquiryList.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-delete]");
+  if (!btn) return;
+  deleteInquiry(btn.dataset.delete);
+});
 
 registerServiceWorker();
 restoreSession();

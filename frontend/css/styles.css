@@ -1321,21 +1321,6 @@ ul {
   backdrop-filter: blur(8px);
 }
 
-.scene-art::after {
-  content: "";
-  position: absolute;
-  inset: auto 12% 14% 12%;
-  height: 22%;
-  border-radius: 0.35rem;
-  background: linear-gradient(180deg, #eef4f0, #c5d2c9);
-  box-shadow: 0 10px 28px rgba(11, 17, 16, 0.28);
-  transition: transform 0.4s var(--ease);
-}
-
-.scene:hover .scene-art::after {
-  transform: translateY(-4px);
-}
-
 .scene-art--hospital {
   background:
     linear-gradient(180deg, rgba(11, 17, 16, 0.25), transparent 45%),

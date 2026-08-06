@@ -20,9 +20,8 @@ const dashboardStatus = document.getElementById("dashboard-status");
 const inquiryList = document.getElementById("inquiry-list");
 const totalCount = document.getElementById("total-count");
 const latestId = document.getElementById("latest-id");
-const notifyState = document.getElementById("notify-state");
-const refreshBtn = document.getElementById("refresh-btn");
 const notifyBtn = document.getElementById("notify-btn");
+const refreshBtn = document.getElementById("refresh-btn");
 
 let pollTimer = null;
 let lastSeenId = 0;
@@ -201,6 +200,7 @@ function showDashboard() {
   loginPanel.hidden = true;
   dashboard.hidden = false;
   logoutBtn.hidden = false;
+  syncNotifyState();
 }
 
 function showLogin() {
@@ -239,12 +239,25 @@ async function enableNotifications() {
     return;
   }
   const permission = await Notification.requestPermission();
-  notifyState.textContent = permission === "granted" ? "켜짐" : "꺼짐";
+  syncNotifyState();
   if (permission === "granted") {
     setStatus(dashboardStatus, "새 문의 알림이 활성화되었습니다.", "is-ok");
   } else {
     setStatus(dashboardStatus, "알림 권한이 필요합니다.", "is-err");
   }
+}
+
+function syncNotifyState() {
+  if (!notifyBtn) return;
+  if (!("Notification" in window)) {
+    notifyBtn.hidden = true;
+    return;
+  }
+  // 권한이 켜져 있으면 버튼 숨김, 풀리거나 미설정이면 다시 표시
+  notifyBtn.hidden = Notification.permission === "granted";
+  notifyBtn.disabled = Notification.permission === "denied";
+  notifyBtn.textContent =
+    Notification.permission === "denied" ? "알림 차단됨" : "알림 켜기";
 }
 
 function restoreSession() {
@@ -270,6 +283,10 @@ refreshBtn.addEventListener("click", () => refreshInquiries().catch((err) => {
   setStatus(dashboardStatus, err.message, "is-err");
 }));
 notifyBtn.addEventListener("click", enableNotifications);
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") syncNotifyState();
+});
 
 inquiryList.addEventListener("click", (event) => {
   const btn = event.target.closest("[data-delete]");

@@ -60,6 +60,9 @@ async function registerServiceWorker() {
 
 async function apiFetch(path, options = {}) {
   const { apiBaseUrl, apiKey } = getConfig();
+  if (!apiBaseUrl || !apiKey) {
+    throw new Error("로그인이 필요합니다.");
+  }
   const res = await fetch(`${apiBaseUrl.replace(/\/$/, "")}${path}`, {
     ...options,
     headers: {
@@ -70,7 +73,14 @@ async function apiFetch(path, options = {}) {
   });
   const payload = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(payload.detail || payload.message || "요청에 실패했습니다.");
+    const detail = payload.detail;
+    const message =
+      typeof detail === "string"
+        ? detail
+        : Array.isArray(detail)
+          ? detail.map((d) => d.msg || d).join(", ")
+          : payload.message || `요청 실패 (${res.status})`;
+    throw new Error(message);
   }
   return payload;
 }
@@ -139,10 +149,10 @@ async function deleteInquiry(id) {
 
 async function notifyNewInquiries(items) {
   if (!items.length) return;
+  if (Notification.permission !== "granted") return;
   const title = items.length === 1 ? "새 문의 1건" : `새 문의 ${items.length}건`;
   const body = `${items[0].name} · ${CATEGORY_LABELS[items[0].category] || items[0].category}`;
 
-  if (Notification.permission !== "granted") return;
   try {
     const reg = await navigator.serviceWorker.ready;
     await reg.showNotification(title, {
@@ -154,7 +164,11 @@ async function notifyNewInquiries(items) {
       data: { url: "/admin/" },
     });
   } catch (_) {
-    new Notification(title, { body, icon: "/admin/icons/icon-192.png" });
+    try {
+      new Notification(title, { body, icon: "/admin/icons/icon-192.png" });
+    } catch (_) {
+      // ignore notification failures so polling continues
+    }
   }
 }
 
@@ -221,8 +235,12 @@ async function refreshInquiries({ notify = false, sinceOnly = false } = {}) {
 function startPolling() {
   stopPolling();
   pollTimer = setInterval(() => {
-    refreshInquiries({ sinceOnly: true }).catch(() => {
-      setStatus(dashboardStatus, "자동 확인 중 오류가 발생했습니다.", "is-err");
+    refreshInquiries({ sinceOnly: true }).catch((err) => {
+      setStatus(
+        dashboardStatus,
+        err?.message || "자동 확인 중 오류가 발생했습니다.",
+        "is-err"
+      );
     });
   }, POLL_MS);
 }

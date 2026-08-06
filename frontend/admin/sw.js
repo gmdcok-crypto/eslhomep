@@ -1,4 +1,4 @@
-const CACHE = "epaper-admin-v5";
+const CACHE = "epaper-admin-v6";
 const ASSETS = [
   "/admin/",
   "/admin/index.html",
@@ -23,8 +23,13 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+
   const url = new URL(event.request.url);
-  // Always network-first for JS so notification logic stays fresh
+  // Never intercept API/cross-origin requests (breaks admin auth polling)
+  if (url.origin !== self.location.origin || !url.pathname.startsWith("/admin")) {
+    return;
+  }
+
   if (url.pathname.startsWith("/admin/js/")) {
     event.respondWith(
       fetch(event.request)
@@ -37,6 +42,7 @@ self.addEventListener("fetch", (event) => {
     );
     return;
   }
+
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request))
   );

@@ -43,7 +43,7 @@ class ErrorResponse(BaseModel):
 class InquiryRead(BaseModel):
     id: int
     name: str
-    email: EmailStr
+    email: str
     message: str
     category: Category
     company: Optional[str]

@@ -22,7 +22,6 @@ const totalCount = document.getElementById("total-count");
 const latestId = document.getElementById("latest-id");
 const notifyBtn = document.getElementById("notify-btn");
 const refreshBtn = document.getElementById("refresh-btn");
-const testPushBtn = document.getElementById("test-push-btn");
 const mobileTip = document.getElementById("mobile-tip");
 
 let pollTimer = null;
@@ -416,24 +415,13 @@ async function syncNotifyState() {
   // Hide button only when this device is fully subscribed
   if (Notification.permission === "granted" && subscribed) {
     notifyBtn.hidden = true;
-    if (testPushBtn) testPushBtn.hidden = false;
     return;
   }
 
   notifyBtn.hidden = false;
-  if (testPushBtn) testPushBtn.hidden = true;
   notifyBtn.disabled = Notification.permission === "denied";
   notifyBtn.textContent =
     Notification.permission === "denied" ? "알림 차단됨" : "알림 켜기";
-}
-
-async function sendTestPush() {
-  try {
-    const result = await apiFetch("/api/admin/push/test", { method: "POST" });
-    setStatus(dashboardStatus, `테스트 푸시 발송: ${result.sent || 0}건`, "is-ok");
-  } catch (err) {
-    setStatus(dashboardStatus, err.message || "테스트 푸시 실패", "is-err");
-  }
 }
 
 function restoreSession() {
@@ -459,7 +447,6 @@ refreshBtn.addEventListener("click", () => refreshInquiries().catch((err) => {
   setStatus(dashboardStatus, err.message, "is-err");
 }));
 notifyBtn.addEventListener("click", enableNotifications);
-testPushBtn?.addEventListener("click", sendTestPush);
 
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible") syncNotifyState();

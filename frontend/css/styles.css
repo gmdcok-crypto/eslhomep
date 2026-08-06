@@ -1451,6 +1451,50 @@ ul {
   background: var(--tone-eyebrow, var(--teal-bright));
 }
 
+.contact-info {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-info-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.9rem;
+  letter-spacing: -0.02em;
+}
+
+.contact-info-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.contact-info-list li {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.contact-info-list span {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: rgba(232, 240, 236, 0.48);
+}
+
+.contact-info-list a,
+.contact-info-list address {
+  font-style: normal;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(232, 240, 236, 0.88);
+  line-height: 1.45;
+}
+
+.contact-info-list a:hover {
+  color: var(--brand-green-light, var(--teal-bright));
+}
+
 .contact-form {
   padding: 1.85rem;
   background: rgba(255, 255, 255, 0.04);

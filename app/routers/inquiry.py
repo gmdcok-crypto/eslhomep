@@ -7,6 +7,7 @@ from app.database import get_db
 from app.models import Inquiry
 from app.schemas import InquiryCreate, InquiryResponse
 from app.services.email import maybe_send_inquiry_email
+from app.services.push import send_inquiry_push
 
 router = APIRouter(prefix="/api", tags=["inquiry"])
 limiter = Limiter(key_func=get_remote_address)
@@ -35,5 +36,10 @@ def create_inquiry(
         maybe_send_inquiry_email(inquiry)
     except Exception as exc:  # noqa: BLE001
         print(f"email failed: {exc}")
+
+    try:
+        send_inquiry_push(db, inquiry)
+    except Exception as exc:  # noqa: BLE001
+        print(f"push failed: {exc}")
 
     return InquiryResponse()

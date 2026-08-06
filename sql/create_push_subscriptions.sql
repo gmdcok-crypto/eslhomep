@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS push_subscriptions (
+  id INT NOT NULL AUTO_INCREMENT,
+  endpoint VARCHAR(768) NOT NULL,
+  p256dh VARCHAR(255) NOT NULL,
+  auth VARCHAR(255) NOT NULL,
+  user_agent VARCHAR(255) NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_push_endpoint (endpoint)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

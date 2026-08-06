@@ -2,14 +2,15 @@ from __future__ import annotations
 
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy import desc, func, select
 from sqlalchemy.orm import Session
 
+from app.config import get_settings
 from app.database import get_db
 from app.dependencies import require_admin_key
-from app.models import Inquiry
-from app.schemas import InquiryListResponse, InquiryRead
+from app.models import Inquiry, PushSubscription
+from app.schemas import InquiryListResponse, InquiryRead, PushSubscribeRequest, VapidPublicResponse
 
 router = APIRouter(prefix="/api/admin", tags=["admin"])
 
@@ -52,3 +53,38 @@ def delete_inquiry(
     db.delete(inquiry)
     db.commit()
     return {"ok": True, "message": "deleted", "id": inquiry_id}
+
+
+@router.get("/push/vapid-public-key", response_model=VapidPublicResponse)
+def get_vapid_public_key(_auth: None = Depends(require_admin_key)) -> VapidPublicResponse:
+    settings = get_settings()
+    if not settings.vapid_public_key:
+        raise HTTPException(status_code=503, detail="푸시 알림이 설정되지 않았습니다.")
+    return VapidPublicResponse(publicKey=settings.vapid_public_key)
+
+
+@router.post("/push/subscribe")
+def subscribe_push(
+    payload: PushSubscribeRequest,
+    request: Request,
+    _auth: None = Depends(require_admin_key),
+    db: Session = Depends(get_db),
+) -> dict:
+    existing = db.scalar(
+        select(PushSubscription).where(PushSubscription.endpoint == payload.endpoint)
+    )
+    if existing:
+        existing.p256dh = payload.keys["p256dh"]
+        existing.auth = payload.keys["auth"]
+        existing.user_agent = (request.headers.get("user-agent") or "")[:255]
+    else:
+        db.add(
+            PushSubscription(
+                endpoint=payload.endpoint,
+                p256dh=payload.keys["p256dh"],
+                auth=payload.keys["auth"],
+                user_agent=(request.headers.get("user-agent") or "")[:255],
+            )
+        )
+    db.commit()
+    return {"ok": True, "message": "subscribed"}

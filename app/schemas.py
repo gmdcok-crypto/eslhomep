@@ -57,3 +57,20 @@ class InquiryListResponse(BaseModel):
     items: list[InquiryRead]
     total: int
     latest_id: int
+
+
+class PushSubscribeRequest(BaseModel):
+    endpoint: str = Field(min_length=10)
+    keys: dict[str, str]
+
+    @field_validator("keys")
+    @classmethod
+    def validate_keys(cls, value: dict[str, str]) -> dict[str, str]:
+        if "p256dh" not in value or "auth" not in value:
+            raise ValueError("keys.p256dh and keys.auth are required")
+        return value
+
+
+class VapidPublicResponse(BaseModel):
+    publicKey: str
+    configured: bool = True

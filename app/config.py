@@ -52,6 +52,18 @@ class Settings(BaseSettings):
         default=None,
         validation_alias=AliasChoices("ADMIN_API_KEY", "ADMIN_KEY"),
     )
+    vapid_public_key: Optional[str] = Field(
+        default=None,
+        validation_alias=AliasChoices("VAPID_PUBLIC_KEY"),
+    )
+    vapid_private_key: Optional[str] = Field(
+        default=None,
+        validation_alias=AliasChoices("VAPID_PRIVATE_KEY"),
+    )
+    vapid_subject: str = Field(
+        default="mailto:admin@bluecs.co.kr",
+        validation_alias=AliasChoices("VAPID_SUBJECT"),
+    )
 
     @property
     def cors_origin_list(self) -> list[str]:

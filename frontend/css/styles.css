@@ -134,12 +134,8 @@ ul {
 .brand-logo {
   display: block;
   width: auto;
-  height: 2.1rem;
+  height: 2.45rem;
   object-fit: contain;
-  padding: 0.2rem 0.45rem;
-  border-radius: 0.5rem;
-  background: #ffffff;
-  box-sizing: content-box;
 }
 
 .brand-mark {
@@ -435,13 +431,10 @@ ul {
 
 .hero-logo {
   display: block;
-  width: min(300px, 78%);
+  width: min(320px, 82%);
   height: auto;
   object-fit: contain;
-  padding: 0.7rem 1rem;
-  border-radius: 1rem;
-  background: #ffffff;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.4));
 }
 
 .hero h1 {
@@ -1536,11 +1529,8 @@ ul {
 .footer-logo {
   display: block;
   width: auto;
-  height: 2.6rem;
+  height: 2.8rem;
   object-fit: contain;
-  padding: 0.3rem 0.55rem;
-  border-radius: 0.55rem;
-  background: #ffffff;
 }
 
 .footer-brand strong {

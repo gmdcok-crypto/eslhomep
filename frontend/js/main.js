@@ -68,7 +68,13 @@
     const syncCaption = (slide) => {
       if (!slide || !caption) return;
       if (captionTag) captionTag.textContent = slide.dataset.captionTag || "";
-      if (captionLabel) captionLabel.textContent = slide.dataset.captionLabel || "";
+      if (captionLabel) {
+        const label = slide.dataset.captionLabel || "";
+        captionLabel.innerHTML = label.replace(
+          /e-PAPER/g,
+          '<span class="brand-word">e-PAPER</span>'
+        );
+      }
     };
 
     const go = (next) => {

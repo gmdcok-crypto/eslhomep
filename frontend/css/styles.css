@@ -8,6 +8,9 @@
   --teal: #2f7f75;
   --teal-deep: #17574f;
   --teal-bright: #3d9b8f;
+  --brand-green-light: #b9eb17;
+  --brand-green: #53a915;
+  --brand-green-deep: #0c6d1d;
   --amber: #d4892a;
   --care: #4d74a8;
   --line: rgba(11, 17, 16, 0.1);
@@ -140,6 +143,24 @@ ul {
   border: 0;
   box-shadow: none;
   padding: 0;
+}
+
+.brand-word {
+  background: linear-gradient(180deg, var(--brand-green-light) 0%, var(--brand-green) 48%, var(--brand-green-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+.eyebrow .brand-word,
+.footer-brand strong.brand-word,
+.footer-note .brand-word {
+  font-weight: inherit;
+  background: linear-gradient(180deg, var(--brand-green-light) 0%, var(--brand-green) 48%, var(--brand-green-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .brand-mark {

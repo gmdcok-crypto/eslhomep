@@ -53,9 +53,15 @@ window.SIGNET_CONFIG = {
 
 ## Railway 배포
 
-1. Railway에서 **Root Directory**를 `backend`로 설정
+1. Railway 서비스 **Root Directory**를 반드시 `backend`로 설정
 2. 같은 프로젝트에 **MySQL** 서비스 추가
-3. API 서비스 Variables 설정:
+3. **Start Command** (자동 감지 실패 시 수동 입력):
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+4. API 서비스 Variables 설정:
 
 | 변수 | 예시 |
 |------|------|

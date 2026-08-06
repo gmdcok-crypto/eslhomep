@@ -1352,6 +1352,24 @@ ul {
     linear-gradient(160deg, #0a0e0d, #243330 48%, #5c6b64);
 }
 
+.scene-art--photo {
+  background: #080a0c;
+  padding: 0;
+}
+
+.scene-art--photo::after {
+  display: none;
+}
+
+.scene-art--photo picture,
+.scene-art--photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .scene figcaption h3 {
   font-size: 1.15rem;
   margin-bottom: 0.3rem;

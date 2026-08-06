@@ -211,12 +211,18 @@ async function refreshInquiries({ notify = false, sinceOnly = false } = {}) {
   totalCount.textContent = String(data.total);
   latestId.textContent = String(data.latest_id);
 
-  if (sinceOnly && data.items.length) {
-    await notifyNewInquiries(data.items);
-    const nextLastSeen = Math.max(config.lastSeenId, data.latest_id);
-    saveState({ ...config, lastSeenId: nextLastSeen });
-    lastSeenId = nextLastSeen;
-    await refreshInquiries({ notify: false, sinceOnly: false });
+  // Polling with since_id only returns NEW items.
+  // Empty result means "no new inquiries", not "no inquiries at all".
+  if (sinceOnly) {
+    if (data.items.length) {
+      await notifyNewInquiries(data.items);
+      const nextLastSeen = Math.max(config.lastSeenId, data.latest_id);
+      saveState({ ...config, lastSeenId: nextLastSeen });
+      lastSeenId = nextLastSeen;
+      await refreshInquiries({ notify: false, sinceOnly: false });
+      return;
+    }
+    setStatus(dashboardStatus, `마지막 확인: ${new Date().toLocaleTimeString("ko-KR")}`, "is-ok");
     return;
   }
 

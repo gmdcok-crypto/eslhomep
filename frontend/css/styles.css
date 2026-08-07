@@ -1499,6 +1499,16 @@ ul {
   line-height: 1.45;
 }
 
+.contact-info-list a.tel-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  color: var(--brand-green-light, #b9eb17);
+  -webkit-tap-highlight-color: rgba(185, 235, 23, 0.25);
+}
+
 .contact-info-list a:hover {
   color: var(--brand-green-light, var(--teal-bright));
 }

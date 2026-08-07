@@ -157,6 +157,14 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
+function toTelHref(phone) {
+  const raw = String(phone || "").trim();
+  if (!raw) return "";
+  // Keep leading + for international, strip other non-digits
+  const normalized = raw.replace(/[^\d+]/g, "");
+  return normalized ? `tel:${normalized}` : "";
+}
+
 function renderInquiries(items) {
   inquiryList.innerHTML = "";
   if (!items.length) {
@@ -182,7 +190,11 @@ function renderInquiries(items) {
       </p>
       <p class="inquiry-contact">
         <a href="mailto:${escapeHtml(item.email)}">${escapeHtml(item.email)}</a>
-        ${item.phone ? `<a href="tel:${escapeHtml(item.phone)}">${escapeHtml(item.phone)}</a>` : ""}
+        ${
+          item.phone
+            ? `<a class="tel-link" href="${toTelHref(item.phone)}">${escapeHtml(item.phone)}</a>`
+            : ""
+        }
       </p>
       <p class="inquiry-message">${escapeHtml(item.message).replace(/\n/g, "<br>")}</p>
     `;

@@ -228,6 +228,17 @@ h1, h2 {
   text-decoration: none;
 }
 
+.inquiry-contact a.tel-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.4rem;
+  padding: 0.1rem 0;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  color: #b9eb17;
+  -webkit-tap-highlight-color: rgba(185, 235, 23, 0.25);
+}
+
 .inquiry-message {
   margin: 0.75rem 0 0;
   line-height: 1.55;

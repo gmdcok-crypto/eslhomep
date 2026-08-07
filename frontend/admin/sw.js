@@ -1,4 +1,4 @@
-const CACHE = "epaper-admin-v8";
+const CACHE = "epaper-admin-v9";
 const ASSETS = [
   "/admin/",
   "/admin/index.html",
